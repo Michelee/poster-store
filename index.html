@@ -19,15 +19,28 @@
     <div class="header">
         <h1>Vue.js Poster Store</h1>
         <form class="searchbar" v-on:submit.prevent="onSubmit">
-            <input v-model="search" type="text" placeholder="Search for posters">
+            <input v-model="newSearch" type="text" placeholder="Search for posters">
             <input type="submit" value="Search" class="btn">
         </form>
     </div>
     <div class="main">
         <div class="products">
+            <div v-if="loading" class="search-results"> Loading... </div>
+            <div v-if="lastSearch" class="search-results">
+                Found {{ items.length }} results for search term {{ lastSearch }}. 
+            </div>
             <div class="product" v-for="(item, index) in items">
-                <h4 class="product-title">{{ item.title }}</h4>
-                <button class="add-to-cart btn" v-on:click="addItem(index)">Add to cart</button>
+                <div>
+                    <div class="product-image">
+                        <img :src="item.link">
+                    </div>
+                </div>
+                <div>
+                    <h4 class="product-title">{{ item.title }}</h4>
+                    <p><strong>Price: {{ price | currency }}</strong></p>
+                    <button class="add-to-cart btn" v-on:click="addItem(index)">Add to cart</button>
+                </div>
+                
             </div>
         </div>
         <div class="cart">
