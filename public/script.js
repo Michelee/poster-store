@@ -9,7 +9,8 @@ new Vue({
 			{ id: 2, title: 'prueba 2'}, 
 			{ id: 3, title: 'prueba 3'}
 		],
-		cart: []
+		cart: [],
+		search: ''
 	},
 	methods:{
 		addItem:function(index){
@@ -51,6 +52,13 @@ new Vue({
 					}
 				}
 			}
+		},
+		onSubmit: function(){
+			this.$http
+				.get('/search/'.concat(this.search))
+				.then(function(response){
+					console.log(response);
+				});
 		}
 	},
 	filters: {
