@@ -60,17 +60,19 @@ new Vue({
 			}
 		},
 		onSubmit: function(){
-			this.items = [];
-			this.lastSearch = '';
-			this.loading = true;
-			this.$http
-				.get('/search/'.concat(this.newSearch))
-				.then(function(response){
-					this.loading = false;
-					this.result = response.data;
-					this.lastSearch = this.newSearch;
-					this.items = response.data.slice(0, LOAD_NUM);
-				});
+			if(this.newSearch.length){
+				this.items = [];
+				this.lastSearch = '';
+				this.loading = true;
+				this.$http
+					.get('/search/'.concat(this.newSearch))
+					.then(function(response){
+						this.loading = false;
+						this.result = response.data;
+						this.lastSearch = this.newSearch;
+						this.items = response.data.slice(0, LOAD_NUM);
+					});
+			}
 		},
 		appendItems: function(){
 			if(this.items.length < this.result.length){
