@@ -1,12 +1,61 @@
+var PRICE = 9.99;
+
 new Vue({
 	el: '#app',
 	data: {
 		total: 0,
-		items: [{ title: 'prueba 1'}, { title: 'prueba 2'}, { title: 'prueba 3'}],
+		items: [
+			{ id: 1, title: 'prueba 1'}, 
+			{ id: 2, title: 'prueba 2'}, 
+			{ id: 3, title: 'prueba 3'}
+		],
+		cart: []
 	},
 	methods:{
-		addItem:function(){
-			this.total += 9.99;
+		addItem:function(index){
+			this.total += PRICE;
+			var item = this.items[index];
+			var found = false;
+
+			for(var i=0; i< this.cart.length; i++){
+				if(this.cart[i].id === item.id){
+					found = true;
+					this.cart[i].qty++;
+					break;
+				}
+
+			}
+
+			if(!found){
+				this.cart.push({
+					id: item.id,
+					title: item.title,
+					qty: 1,
+					price: PRICE
+				});
+			}
+		},
+		inc: function(item){
+			this.total += PRICE;
+			item.qty ++;
+		},
+		dec: function(item){
+			this.total -= PRICE;
+			item.qty --;
+
+			if(item.qty <= 0){
+				for(var i=0; i< this.cart.length; i++){
+					if(this.cart[i].id === item.id){
+						this.cart.splice(i, 1);
+						break;
+					}
+				}
+			}
+		}
+	},
+	filters: {
+		currency: function(price){
+			return '$'.concat(price.toFixed(2));
 		}
 	}
 });
